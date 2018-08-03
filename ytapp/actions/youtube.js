@@ -1,20 +1,15 @@
-import * as types from './types'
+import * as types from './types';
+
 export const handlePlayPause = () => {
     return {
         type: types.HANDLE_PLAY_PAUSE,
-
     }
     // this.setState(s => ({ isPlaying: !s.isPlaying }));
   };
-export const setReady = () => {
+export const setReady = (e) => {
     return {
         type: types.HANDLE_READY,
         payload: true
-    }
-}
-export const addRecipe = () => {
-    return {
-        type: types.ADD_RECIPE,
     }
 }
 export const setStatus = (e) => {

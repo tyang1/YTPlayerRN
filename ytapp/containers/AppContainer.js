@@ -11,10 +11,10 @@ import {
   View,
   Text,
   ScrollView,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   TouchableHighlight,
   ProgressViewIOS,
-  TouchableOpacity,
   PixelRatio,
   Dimensions
 } from "react-native";
@@ -35,14 +35,13 @@ class AppContainer extends Component {
     //   this.setState(s => ({ isPlaying: !s.isPlaying }));
     this.props.handlePlayPause();
   };
-  addRecipe = () => {
-    this.props.addRecipe();
-  };
   render() {
+
+    console.log("here is the this.props.currentTime", this.props.currentTime)
     return (
       <View style={styles.container}>
         <Text>Testing 1</Text>
-        {/* <YouTube
+        <YouTube
           ref={component => {
             this._youTubeRef = component;
           }}
@@ -51,36 +50,27 @@ class AppContainer extends Component {
           play={this.props.isPlaying} // control playback of video with true/false
           fullscreen={this.props.fullscreen} // control whether the video should play in fullscreen or inline
           loop={this.props.isLooping} // control whether the video should loop when ended
-          onReady={e => this.props.setReady}
-          onChangeState={e => this.props.setStatus}
-          onChangeQuality={e => this.props.setQuality}
-          onError={e => this.props.setError}
+          onReady={this.props.setReady}
+          onChangeState={this.props.setStatus}
+          onChangeQuality={this.props.setQuality}
+          onError={this.props.setError}
           style={{ alignSelf: "stretch", height: 300 }}
-          onProgress={e => this.props.setProgress}
-        /> */}
-        {/* <TouchableWithoutFeedback onPress={this.handleProgressPress}>
+          onProgress={this.props.setProgress}
+        />
+        <TouchableWithoutFeedback onPress={this.handleProgressPress}>
           <View>
             <ProgressViewIOS
               style={styles.progressBar}
               progress={this.props.progress}
             />
           </View>
-        </TouchableWithoutFeedback> */}
-        <TouchableHighlight
-          onPress={() => {
-            this.addRecipe();
-          }}
-          >
-          <Text> Add Recipe </Text>
-        </TouchableHighlight>
+        </TouchableWithoutFeedback>
         <View style={styles.buttonGroup}>
-          <TouchableWithoutFeedback onPress={() => this.handlePlayPause()}>
             <Icon
               name={this.props.isPlaying ? "pause" : "play"}
               size={20}
               color="#900"
-              />
-          </TouchableWithoutFeedback>
+            />
           <Text>
             {" "}
             Play Time Elapsed{" "}
@@ -91,20 +81,22 @@ class AppContainer extends Component {
     );
   }
 }
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(ActionCreators, dispatch);
-};
-
 const mapStateToProps = state => {
+  console.log("inside mapstatetoprops", state)
   return {
     isLooping: state.isLooping,
     fullscreen: state.fullscreen,
     progress: state.progress,
     duration: state.duration,
     currentTime: state.currentTime,
-    isPlaying: state.isPlaying
+    isPlaying: state.isPlaying,
+    status: state.status
   };
 };
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(ActionCreators, dispatch);
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -126,12 +118,14 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     width: 100,
     transform: [{ scaleX: 2.0 }, { scaleY: 2.5 }]
+  },
+  buttonText: {
+    fontSize: 18,
+    color: "blue"
   }
 });
 
 export default connect(
-  () => {
-    return {};
-  },
+  mapStateToProps,
   mapDispatchToProps
 )(AppContainer);
